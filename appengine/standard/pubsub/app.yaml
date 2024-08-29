@@ -12,26 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-runtime: python27
-api_version: 1
-threadsafe: yes
+runtime: python
+env: flex
+entrypoint: gunicorn -b :$PORT main:app
 
-handlers:
-- url: /
-  script: main.app
+runtime_config:
+  operating_system: "ubuntu22"
 
-- url: /_ah/push-handlers/.*
-  script: main.app
-  login: admin
-  
-libraries:
-- name: flask
-  version: "0.12"
-
-#[START env]
+# [START gae_flex_pubsub_env]
 env_variables:
-    PUBSUB_TOPIC: your-topic
+    PUBSUB_TOPIC: sample-topic-1
     # This token is used to verify that requests originate from your
     # application. It can be any sufficiently random string.
-    PUBSUB_VERIFICATION_TOKEN: 1234abc
-#[END env]
+    PUBSUB_VERIFICATION_TOKEN: 0987654321abcdefgh
+# [END gae_flex_pubsub_env]

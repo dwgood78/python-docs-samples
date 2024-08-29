@@ -14,7 +14,25 @@
 
 # [START gae_flex_quickstart]
 from flask import Flask
+from google.cloud import error_reporting
+import logging
 
+client = error_reporting.Client()
+
+try:
+    # Your code that might raise exceptions
+except Exception as e:
+    client.report_exception(exc_info=(type(e), e, e.__traceback__))
+
+def simulate_error():
+    try:
+        # Simulate a division by zero
+        result = 10 / 0
+    except Exception as e:
+        logging.error("Simulated error:", exc_info=True)
+
+if __name__ == "__main__":
+    simulate_error()  # Call the function here
 
 app = Flask(__name__)
 
